@@ -6,6 +6,7 @@ pipeline {
         ACR_NAME = 'rdacr'
         ACR_REPO = 'rdacr.azurecr.io/rzayn19'
         IMAGE_NAME = 'springboot:latest'
+        SONAR_TOKEN = credentials('sonarqube-token')
     }
 
     stages {
@@ -20,7 +21,7 @@ pipeline {
             
             steps {
               withSonarQubeEnv('Sonarqube') {
-                sh 'mvn clean package sonar:sonar'
+                sh 'mvn clean package sonar:sonar -Dsonar.login=$SONAR_TOKEN'
               }
             }
           }  
