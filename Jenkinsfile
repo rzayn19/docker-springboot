@@ -36,7 +36,7 @@ pipeline {
     
         stage('Login to ACR') {
             steps {
-                withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CRED_ID}")]) {
+                withCredentials([azureServicePrincipal(credentialsId: "${test-creds}")]) {
                     script {
                         // Login to Azure
                         sh '''
