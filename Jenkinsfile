@@ -7,6 +7,7 @@ pipeline {
         ACR_REPO = 'rdacr.azurecr.io/rzayn19'
         IMAGE_NAME = 'springboot'
         SONAR_TOKEN = credentials('sonarqube-token')
+        AZURE_CRED_ID = 'test-creds'
     }
 
     stages {
@@ -36,7 +37,7 @@ pipeline {
     
         stage('Login to ACR') {
             steps {
-                withCredentials([azureServicePrincipal(credentialsId: "${test-creds}")]) {
+                withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CRED_ID}")]) {
                     script {
                         // Login to Azure
                         sh '''
