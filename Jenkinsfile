@@ -5,7 +5,7 @@ pipeline {
         // Define environment variables for ACR
         ACR_NAME = 'rdacr'
         ACR_REPO = 'rdacr.azurecr.io/rzayn19'
-        IMAGE_NAME = 'springboot:latest'
+        IMAGE_NAME = 'springboot'
         SONAR_TOKEN = credentials('sonarqube-token')
     }
 
