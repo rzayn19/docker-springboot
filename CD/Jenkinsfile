@@ -39,7 +39,7 @@ pipeline {
                 dir('CD') {
                 script {
                     sh '''
-                        helm upgrade --install my-release ./springboot
+                        helm upgrade --install my-release ./sprinboot
                     '''
                 }
             }
