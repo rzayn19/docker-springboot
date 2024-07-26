@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    environment {
+        AZURE_CREDENTIALS_ID = 'test-creds'
+        RESOURCE_GROUP = 'rdaksdemo'
+        CLUSTER_NAME = 'rdaks'
+    }
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                // Checkout code from Git
+                 dir('CD') {
+                git branch: 'main', url: 'https://github.com/rzayn19/docker-springboot.git'
+            }
+          }
+        }
+
+        stage('Setup AKS Credentials') {
+            steps {
+                script {
+                    withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CREDENTIALS_ID}")]) {
+                         // Login to Azure
+                        sh '''
+                            az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET --tenant $AZURE_TENANT_ID
+                        '''
+                        sh '''
+                            az aks get-credentials --resource-group ${RESOURCE_GROUP} --name ${CLUSTER_NAME}
+                        '''
+                    }
+                }
+            }
+        }
+        
+        stage('Deploy to AKS') {
+            steps {
+                script {
+                    sh '''
+                        helm upgrade --install my-release ./springboot
+                    '''
+                }
+            }
+        }
+    }
+}
