@@ -36,12 +36,14 @@ pipeline {
 
         stage('Deploy to AKS') {
             steps {
+                dir('CD') {
                 script {
                     sh '''
-                        helm upgrade --install my-release springboot
+                        helm upgrade --install my-release ./springboot
                     '''
                 }
             }
         }
+      } 
     }
 }
