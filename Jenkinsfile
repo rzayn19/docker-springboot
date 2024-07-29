@@ -59,5 +59,13 @@ pipeline {
                 sh "docker push ${ACR_REPO}/${IMAGE_NAME}:latest"
             }
         }
+
+    }
+
+        post {
+        success {
+            // Trigger CD pipeline
+            build job: 'docker-springboot-CD', wait: true
+        }
     }
 }
