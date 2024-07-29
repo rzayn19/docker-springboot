@@ -65,7 +65,7 @@ pipeline {
         post {
         success {
             // Trigger CD pipeline
-            build job: 'docker-springboot-CD', wait: true
+            build job: 'docker-springboot-CD', wait: false
         }
     }
 }
