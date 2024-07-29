@@ -13,5 +13,8 @@ WORKDIR /opt/app
 # cp target/spring-boot-web.jar /opt/app/
 COPY ${JAR_FILE} .
 
+# EXPOSE Container Port
+EXPOSE 80
+
 # java -jar /opt/app/app.jar
 ENTRYPOINT ["java","-jar","spring-boot-web.jar"]
