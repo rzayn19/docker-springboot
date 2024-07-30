@@ -25,7 +25,16 @@ pipeline {
                 sh 'mvn clean package sonar:sonar -Dsonar.login=$SONAR_TOKEN'
               }
             }
-          }  
+          } 
+
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+          }
+       
         stage('Build Docker Image') {
             steps {
                 script {
@@ -34,7 +43,8 @@ pipeline {
                 }
             }
         }
-    
+
+
         stage('Login to ACR') {
             steps {
                 withCredentials([azureServicePrincipal(credentialsId: "${AZURE_CRED_ID}")]) {
