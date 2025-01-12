@@ -71,5 +71,3 @@ stages:
         tags: |
           $(tag)    
 
-    
-
