@@ -1,27 +1,17 @@
-# Use Maven to build the app
-FROM maven:3.8.1-openjdk-17-slim as build
+# For Java 8, try this
+# FROM openjdk:8-jdk-alpine
 
-# Set the working directory
-WORKDIR /app
-
-# Copy the pom.xml and download dependencies
-COPY pom.xml .
-RUN mvn dependency:go-offline
-
-# Copy the rest of the project files
-COPY . .
-
-# Build the JAR file
-RUN mvn clean package -DskipTests
-
-# Use OpenJDK as the base image for the final build
+# For Java 17, try this
 FROM openjdk:17-alpine
 
-# Set the working directory
+# Refer to Maven build -> finalName
+ARG JAR_FILE=target/spring-boot-web.jar
+
+# cd /opt/app
 WORKDIR /opt/app
 
-# Copy the JAR file from the build stage
-COPY --from=build /app/target/spring-boot-web.jar .
+# cp target/spring-boot-web.jar /opt/app/
+COPY ${JAR_FILE} .
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "spring-boot-web.jar"]
+# java -jar /opt/app/app.jar
+ENTRYPOINT ["java","-jar","spring-boot-web.jar"]
