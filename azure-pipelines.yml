@@ -38,6 +38,7 @@ stages:
         mavenAuthenticateFeed: false
         effectivePomSkip: false
         sonarQubeRunAnalysis: false
+        goals: 'clean install'
     - task: Docker@2
       displayName: Build a Docker image 
       inputs:
